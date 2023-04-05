@@ -1,4 +1,11 @@
+import os
+import requests
+from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+from DatabaseHandler import DatabaseHandler
 
+load_dotenv()
+MENU_LINK = os.getenv("MENU_LINK")
 
 
 def get_menu(LINK=MENU_LINK):
@@ -16,3 +23,13 @@ def get_menu(LINK=MENU_LINK):
             weight.append(tds[1].text)
             price.append(tds[2].text)
     return (names[1:], weight[1:], price[1:])
+
+
+def main():
+    MenuBase = DatabaseHandler()
+    MenuBase.insert_menu_data()
+    MenuBase.close()
+
+
+if __name__ == "__main__":
+    main()
