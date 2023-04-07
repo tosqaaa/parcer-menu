@@ -57,23 +57,14 @@ class MenuDatabaseManager:
         return False
 
     def get_menu(self):
-        names = []
-        weight = []
-        price = []
         try:
             response = requests.get(url=self.menu_link)
             if response.status_code:
                 soup = BeautifulSoup(response.text, "lxml")
                 table = soup.find('table', {'class': "table table-bordered"})
-                trs = table.find_all('tr')
-                for tr in trs:
-                    tds = tr.find_all('td')
-                    if len(tds) == 3:
-                        names.append(tds[0].text)
-                        weight.append(tds[1].text)
-                        price.append(tds[2].text)
-                result = list(zip(names, weight, price))
-                return result[1:]
+                result = [(tds[0].text, tds[1].text, tds[2].text)
+                          for tr in table.find_all('tr') if len((tds := tr.find_all('td'))) == 3][1:]
+                return result
         except Exception as ex:
             print("error in get_menu() ", ex)
 
