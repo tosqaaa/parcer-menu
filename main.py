@@ -1,10 +1,9 @@
-from DatabaseHandler import DatabaseHandler
+from MenuDatabaseManager import MenuDatabaseManager
 
 
 def main():
-    MenuBase = DatabaseHandler()
-    MenuBase.update_menu_data()
-    MenuBase.close()
+    with MenuDatabaseManager() as MenuDataBase:
+        MenuDataBase.update_menu_data()
 
 
 if __name__ == "__main__":
