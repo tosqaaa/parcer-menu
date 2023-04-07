@@ -21,8 +21,10 @@ def get_menu(LINK=MENU_LINK):
             names.append(tds[0].text)
             weight.append(tds[1].text)
             price.append(tds[2].text)
-    return (names[1:], weight[1:], price[1:])
-
+    result = list(zip(names, weight, price))
+    return result[1:]
+        
+    
 
 class DatabaseHandler:
     def __init__(self):
@@ -32,15 +34,20 @@ class DatabaseHandler:
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS menu(
             Name  TEXT,
             Weight TEXT,
-            Price TEXT)""")
+            Price REAL)""")
 
     def insert_menu_data(self):
-        values = get_menu()
-        for i in range(len(values[0])):
-            self.cursor.execute("""INSERT OR IGNORE INTO menu (Name, Weight, Price) VALUES (?, ?, ?)""", (
-                values[0][i], values[1][i], values[2][i]))
+        self.cursor.executemany("""INSERT INTO menu VALUES(?,?,?)""", get_menu())
+        self.connection.commit()
+        
+    def update_menu_data(self):
+        self.cursor.execute("""DELETE FROM menu""")
+        self.cursor.executemany("""INSERT INTO menu VALUES(?,?,?)""", get_menu())
         self.connection.commit()
 
     def close(self):
         self.cursor.close()
         self.connection.close()
+
+if __name__ == "__main__":
+    print(get_menu())

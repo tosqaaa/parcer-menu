@@ -1,13 +1,13 @@
-# README
+# Меню столовой ВГУ
 Этот скрипт предназначен для извлечения меню ВГУ из HTML-страницы и сохранения его в базе данных SQLite.
 Для запуска проекта выполните следующие шаги:
 
+1. Установите все зависимости из файла `requirements.txt`:
 `pip install -r requirements.txt`
+2. Запустите скрипт:
+`python main.py`
  
- Ссылка на меню:
-
-`MENU_LINK="https://vsu.by/platnie-uslygi/menyu-stolovoj.html"`
-
+ Ссылка на меню: `MENU_LINK="https://vsu.by/platnie-uslygi/menyu-stolovoj.html"`
 
 ## Описание файлов проекта
 
@@ -15,5 +15,10 @@
 * `DatabaseHandler.py` - модуль для работы с базой данных SQLite.
 * `requirements.txt` - файл, содержащий список необходимых зависимостей для проекта.
 
+## Класс DatabaseHandler
+
+### Методы:
+* `insert_menu_data()` - вставляет данные меню в пустую базу данных.
+* `update_menu_data()` -  удаляет данные из таблицы и затем вставляет новые данные в базу данных, т.е. обновляет базу данных.
 
 
